@@ -24,7 +24,7 @@ namespace KDEConnectIndicator {
 
             indicator = new AppIndicator.Indicator (
                     path,
-                    device.icon_name + "-symbolic",
+                    device.icon_name,
                     AppIndicator.IndicatorCategory.HARDWARE);
 
             name_item = new Gtk.MenuItem ();
@@ -117,7 +117,7 @@ namespace KDEConnectIndicator {
         }
 
         private void update_visibility () {
-            if (!device.is_reachable ())
+            if (!device.is_reachable)
                 indicator.set_status (AppIndicator.IndicatorStatus.PASSIVE);
             else
                 indicator.set_status (AppIndicator.IndicatorStatus.ACTIVE);
@@ -126,8 +126,8 @@ namespace KDEConnectIndicator {
             name_item.label = device.name;
         }
         private void update_battery_item () {
-            battery_item.visible = device.is_paired ()
-                && device.is_reachable ()
+            battery_item.visible = device.is_paired
+                && device.is_reachable
                 && device.has_plugin ("kdeconnect_battery");
             this.battery_item.label = "Battery : %d%%".printf(device.battery);
             if (device.is_charging ())
@@ -135,13 +135,13 @@ namespace KDEConnectIndicator {
         }
         private void update_status_item () {
 
-            if (device.is_reachable ()) {
-                if (device.is_paired ())
+            if (device.is_reachable) {
+                if (device.is_paired)
                     this.status_item.label = "Device Reachable and Paired";
                 else
                     this.status_item.label = "Device Reachable but Not Paired";
             } else {
-                if (device.is_paired ())
+                if (device.is_paired)
                     this.status_item.label = "Device Paired but not Reachable";
                 else
                     // is this even posible?
@@ -149,8 +149,8 @@ namespace KDEConnectIndicator {
             }
         }
         private void update_pair_item () {
-            var paired = device.is_paired ();
-            var reachable = device.is_reachable ();
+            var paired = device.is_paired;
+            var reachable = device.is_reachable;
             pair_item.visible = !paired;
             unpair_item.visible = paired;
 

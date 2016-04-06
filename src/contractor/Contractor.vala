@@ -105,7 +105,7 @@ namespace KDEConnectIndicator {
         var device_list = new SList<Device> ();
         foreach (string id in id_list) {
             var d = new Device ("/modules/kdeconnect/devices/"+id);
-            if (d.is_reachable () && d.is_paired ()) {
+            if (d.is_reachable && d.is_paired) {
                 device_list.append (d);
                 Gtk.TreeIter iter;
                 list_store.append (out iter);

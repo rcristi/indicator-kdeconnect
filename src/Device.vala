@@ -37,7 +37,7 @@ namespace KDEConnectIndicator {
         }
         public string icon_name {
             get {
-                Variant return_variant=device_proxy.get_cached_property ("iconName");
+                Variant return_variant=device_proxy.get_cached_property ("statusIconName");
                 if (return_variant!=null && return_variant.get_string () != "")
                     return return_variant.get_string ();
                 return "smartphone"; // default to smartphone as KDC 0.5 doens't have icon name props
@@ -211,36 +211,21 @@ namespace KDEConnectIndicator {
                 message (e.message);
             }
         }
-        public bool is_paired () {
-            try {
-                var return_variant = conn.call_sync (
-                        "org.kde.kdeconnect",
-                        path,
-                        "org.kde.kdeconnect.device",
-                        "isPaired",
-                        null,
-                        null,
-                        DBusCallFlags.NONE,
-                        -1,
-                        null
-                        );
-                Variant i = return_variant.get_child_value (0);
-                if (i!=null)
-                    return i.get_boolean ();
-            } catch (Error e) {
-                message (e.message);
-            }
-            return false;
+        public bool is_paired {
+			get {
+				Variant return_variant=device_proxy.get_cached_property ("isPaired");
+				if (return_variant!=null)
+					return return_variant.get_boolean ();
+				return false; // default to false if something went wrong
+			}
         }
-        public bool is_reachable () {
-            try {
-                Variant return_variant=device_proxy.get_cached_property ("isReachable");
-                if (return_variant!=null)
-                    return return_variant.get_boolean ();
-            } catch (Error e) {
-                message (e.message);
-            }
-            return false;
+        public bool is_reachable {
+			get {
+				Variant return_variant=device_proxy.get_cached_property ("isReachable");
+				if (return_variant!=null)
+					return return_variant.get_boolean ();
+				return false; // default to false if something went wrong
+			}
         }
         public bool is_charging () {
             if (!has_plugin ("kdeconnect_battery"))
